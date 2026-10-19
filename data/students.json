@@ -1,0 +1,16 @@
+[
+  {
+    "id": "STU001",
+    "first_name": "Sifat",
+    "last_name": "Hossen",
+    "age": 22,
+    "class_id": ""
+  },
+  {
+    "id": "STU002",
+    "first_name": "Shahriar",
+    "last_name": "Reyad",
+    "age": 23,
+    "class_id": ""
+  }
+]

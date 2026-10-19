@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #14342b;
+      --pine2: #1f4a3d;
+      --chalk: #f2c14e;
+      --paper: #f5f6f2;
+      --ink: #1c2321;
+      --muted: #66716d;
+      --line: #e2e5df;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: rgba(20, 52, 43, 0.95);
+      color: #e8efeb;
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: white;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: white;
+      padding: 4px;
+    }
+    nav a {
+      color: #e8efeb;
+      text-decoration: none;
+      margin-left: 28px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    nav a:hover { color: var(--chalk); }
+
+    /* Hero with background image */
+    .hero {
+      position: relative;
+      color: white;
+      padding: 120px 24px;
+      text-align: center;
+      background: 
+        linear-gradient(rgba(20, 52, 43, 0.75), rgba(20, 52, 43, 0.85)),
+        url('hero-bg.png') center/cover no-repeat;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero h1 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .hero p {
+      font-size: 18px;
+      opacity: 0.95;
+      max-width: 620px;
+      margin: 0 auto 36px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    }
+    .btn {
+      display: inline-block;
+      background: var(--chalk);
+      color: var(--pine);
+      padding: 15px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Stats */
+    .stats {
+      max-width: 1100px;
+      margin: -50px auto 0;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      position: relative;
+      z-index: 10;
+    }
+    .stat-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    }
+    .stat-card h3 {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--pine);
+      margin-bottom: 6px;
+    }
+    .stat-card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* Sections */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-title {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      color: var(--muted);
+      margin-bottom: 40px;
+      font-size: 17px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px;
+      transition: 0.2s;
+    }
+    .card:hover {
+      border-color: var(--pine);
+      box-shadow: 0 8px 24px rgba(20,52,43,0.08);
+    }
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--pine);
+    }
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .notices {
+      background: #eef2ef;
+    }
+    .notice-item {
+      background: white;
+      border-left: 4px solid var(--chalk);
+      padding: 18px 22px;
+      margin-bottom: 14px;
+      border-radius: 0 8px 8px 0;
+    }
+    .notice-item h4 { margin-bottom: 4px; }
+    .notice-item span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    footer {
+      background: var(--pine);
+      color: #c5d0cb;
+      padding: 50px 24px 30px;
+      text-align: center;
+    }
+    footer .logo {
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    footer p { font-size: 14px; }
+
+    @media (max-width: 700px) {
+      nav a { margin-left: 14px; font-size: 14px; }
+      .hero { padding: 80px 20px; min-height: 420px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <!-- Change logo.png to your actual logo file name -->
+        <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+        School Manager
+      </a>
+      <nav>
+        <a href="#academics">Academics</a>
+        <a href="#notices">Notices</a>
+        <a href="#campus">Campus</a>
+        <a href="admin.html">Admin Panel</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero with Background Image -->
+  <section class="hero">
+    <h1>School Management System</h1>
+    <p>A modern platform for managing students, teachers, classes and academic activities — inspired by leading universities.</p>
+    <a href="admin.html" class="btn">Enter Management System</a>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats" id="stats">
+    <div class="stat-card">
+      <h3 id="stat-students">—</h3>
+      <p>Students</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="stat-teachers">—</h3>
+      <p>Teachers</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="stat-classes">—</h3>
+      <p>Classes</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="stat-courses">—</h3>
+      <p>Courses</p>
+    </div>
+  </div>
+
+  <!-- Academics -->
+  <section id="academics">
+    <h2 class="section-title">Academics</h2>
+    <p class="section-sub">Core modules of the school management system</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Student Management</h3>
+        <p>Add, update and manage student records with class assignments and profiles.</p>
+      </div>
+      <div class="card">
+        <h3>Employee & Teachers</h3>
+        <p>Maintain teacher and staff information along with subject specialization.</p>
+      </div>
+      <div class="card">
+        <h3>Class Management</h3>
+        <p>Create classes, assign teachers and organize students efficiently.</p>
+      </div>
+      <div class="card">
+        <h3>Course Management</h3>
+        <p>Define courses and assign responsible teachers for each subject.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notices -->
+  <section class="notices" id="notices">
+    <h2 class="section-title">Notices</h2>
+    <p class="section-sub">Latest announcements and updates</p>
+    <div class="notice-item">
+      <h4>Welcome to the School Management System</h4>
+      <span>Published today</span>
+    </div>
+    <div class="notice-item">
+      <h4>New academic session registration is now open</h4>
+      <span>Published recently</span>
+    </div>
+    <div class="notice-item">
+      <h4>Teachers are requested to update their profiles</h4>
+      <span>Published recently</span>
+    </div>
+  </section>
+
+  <!-- Campus -->
+  <section id="campus">
+    <h2 class="section-title">Campus Life</h2>
+    <p class="section-sub">A place for learning, growth and collaboration</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Academic Excellence</h3>
+        <p>Structured academic management for better learning outcomes.</p>
+      </div>
+      <div class="card">
+        <h3>Teacher Support</h3>
+        <p>Tools to help teachers manage classes and courses effectively.</p>
+      </div>
+      <div class="card">
+        <h3>Student Success</h3>
+        <p>Organized records and clear academic structure for every student.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">
+      <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+      School Manager
+    </div>
+    <p>Inspired by leading academic institutions • Built with Go & Modern Web Technologies</p>
+  </footer>
+
+  <script>
+    async function loadStats() {
+      try {
+        const res = await fetch("http://localhost:8080/api/stats");
+        if (!res.ok) return;
+        const data = await res.json();
+        document.getElementById("stat-students").textContent = data.total_students || 0;
+        document.getElementById("stat-teachers").textContent = data.teachers || 0;
+        document.getElementById("stat-classes").textContent = data.total_classes || 0;
+        document.getElementById("stat-courses").textContent = data.total_courses || 0;
+      } catch (err) {
+        console.log("Backend not running");
+      }
+    }
+    loadStats();
+  </script>
+</body>
+</html>

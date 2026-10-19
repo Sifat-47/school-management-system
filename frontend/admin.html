@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="side">
+    <div class="brand"><span class="mark">S</span>School Manager</div>
+    <nav id="nav" aria-label="Sections"></nav>
+    <p class="status" id="status">Connecting…</p>
+  </aside>
+  <main>
+    <header class="top">
+      <div>
+        <h1 id="title"></h1>
+        <p id="sub"></p>
+      </div>
+      <input id="search" type="search" placeholder="Search this list" aria-label="Search this list">
+    </header>
+    <form id="form" class="card"></form>
+    <div class="card table-wrap">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div id="empty" class="empty" hidden></div>
+    </div>
+  </main>
+  <div id="toasts" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

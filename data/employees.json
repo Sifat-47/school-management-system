@@ -1,0 +1,14 @@
+[
+  {
+    "id": "EMP001",
+    "name": "Rumi",
+    "role": "Teacher",
+    "subject": "Cse"
+  },
+  {
+    "id": "EMP002",
+    "name": "Pavel",
+    "role": "Teacher",
+    "subject": "Math"
+  }
+]
