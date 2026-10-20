@@ -15,16 +15,26 @@ const teacherName = id => {
 // The same code below draws all four sections from this.
 const SECTIONS = {
   students: {
-    label: "Students", single: "Student", sub: "Everyone enrolled at the school.",
-    add: "Add student", empty: "No students yet. Add the first one above.",
-    defaults: { class_id: "" },
-    fields: [
-      { key: "first_name", label: "First name" },
-      { key: "last_name", label: "Last name" },
-      { key: "age", label: "Age", type: "number" }],
-    cols: [["ID", s => s.id], ["Name", s => `${s.first_name} ${s.last_name}`],
-           ["Age", s => s.age], ["Class", s => s.class_id]]
-  },
+  label: "Students",
+  single: "Student",
+  sub: "Everyone enrolled at the school.",
+  add: "Add student",
+  empty: "No students yet. Add the first one above.",
+  defaults: { class_id: "" },
+  fields: [
+    { key: "first_name", label: "First name" },
+    { key: "last_name", label: "Last name" },
+    { key: "age", label: "Age", type: "number" },
+    { key: "password", label: "Password" },
+    { key: "class_id", label: "Class", classSelect: true, optional: true }  // ← New
+  ],
+  cols: [
+    ["ID", s => s.id],
+    ["Name", s => `${s.first_name} ${s.last_name}`],
+    ["Age", s => s.age],
+    ["Class", s => s.class_id || "—"]
+  ]
+},
   employees: {
     label: "Employees", single: "Employee", sub: "Teachers and staff members.",
     add: "Add employee", empty: "No employees yet. Add a teacher or staff member above.",
@@ -36,15 +46,29 @@ const SECTIONS = {
     cols: [["ID", e => e.id], ["Name", e => e.name], ["Role", e => e.role], ["Subject", e => e.subject]]
   },
   classes: {
-    label: "Classes", single: "Class", sub: "Groups of students, each with a teacher.",
-    add: "Add class", empty: "No classes yet. Create one above.",
-    defaults: { student_ids: [] },
-    fields: [
-      { key: "name", label: "Class name (e.g. Grade 10-A)" },
-      { key: "teacher_id", label: "Teacher", teacher: true, optional: true }],
-    cols: [["ID", c => c.id], ["Name", c => c.name], ["Teacher", c => teacherName(c.teacher_id)],
-           ["Students", c => (c.student_ids || []).length]]
-  },
+  label: "Classes",
+  single: "Class",
+  sub: "Groups of students from Class 6 to Class 12.",
+  add: "Add class",
+  empty: "No classes yet. Create one above.",
+  defaults: { student_ids: [] },
+  fields: [
+    { key: "name", label: "Class Name (e.g. Class 6 - Section A)" },
+    { 
+      key: "grade", 
+      label: "Grade", 
+      options: ["6", "7", "8", "9", "10", "11", "12"] 
+    },
+    { key: "teacher_id", label: "Teacher", teacher: true, optional: true }
+  ],
+  cols: [
+    ["ID", c => c.id],
+    ["Name", c => c.name],
+    ["Grade", c => c.grade || "—"],
+    ["Teacher", c => teacherName(c.teacher_id)],
+    ["Students", c => (c.student_ids || []).length]
+  ]
+},
   courses: {
     label: "Courses", single: "Course", sub: "Subjects taught at the school.",
     add: "Add course", empty: "No courses yet. Add one above.",
@@ -85,12 +109,28 @@ async function loadAll() {
 }
 function fieldHtml(f) {
   const req = f.optional ? "" : "required";
-  if (f.options) return `<select name="${f.key}">${f.options.map(o => `<option>${o}</option>`).join("")}</select>`;
+
+  if (f.options) {
+    return `<select name="${f.key}">${f.options.map(o => `<option>${o}</option>`).join("")}</select>`;
+  }
+
+  // Teacher dropdown
   if (f.teacher) {
     const teachers = data.employees.filter(e => (e.role || "").toLowerCase() === "teacher");
-    return `<select name="${f.key}"><option value="">No teacher yet</option>` +
-      teachers.map(t => `<option value="${esc(t.id)}">${esc(t.name)}</option>`).join("") + `</select>`;
+    return `<select name="${f.key}">
+      <option value="">No teacher yet</option>
+      ${teachers.map(t => `<option value="${esc(t.id)}">${esc(t.name)}</option>`).join("")}
+    </select>`;
   }
+
+  // Class dropdown (NEW)
+  if (f.classSelect) {
+    return `<select name="${f.key}">
+      <option value="">Select Class</option>
+      ${data.classes.map(c => `<option value="${esc(c.id)}">${esc(c.name)} (Grade ${c.grade || "?"})</option>`).join("")}
+    </select>`;
+  }
+
   return `<input name="${f.key}" type="${f.type || "text"}" ${req} ${f.type === "number" ? 'min="1"' : ""}>`;
 }
 function render() {
@@ -132,7 +172,11 @@ $("form").onsubmit = async e => {
   for (const f of s.fields) {
     const v = (form.get(f.key) || "").trim();
     if (!v && !f.optional) return toast(`${f.label} is required`, true);
-    body[f.key] = f.type === "number" ? Number(v) : v;
+    if (f.key === "grade") {
+  body[f.key] = Number(v);
+} else {
+  body[f.key] = f.type === "number" ? Number(v) : v;
+}
   }
   try {
     await api(name, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });

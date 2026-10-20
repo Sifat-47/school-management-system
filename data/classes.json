@@ -2,7 +2,36 @@
   {
     "id": "CLS001",
     "name": "CSE",
+    "grade": 0,
     "teacher_id": "",
+    "student_ids": []
+  },
+  {
+    "id": "CLS002",
+    "name": "Bangla",
+    "grade": 8,
+    "teacher_id": "EMP001",
+    "student_ids": []
+  },
+  {
+    "id": "CLS003",
+    "name": "English",
+    "grade": 7,
+    "teacher_id": "EMP002",
+    "student_ids": []
+  },
+  {
+    "id": "CLS004",
+    "name": "Class 6",
+    "grade": 6,
+    "teacher_id": "EMP001",
+    "student_ids": []
+  },
+  {
+    "id": "CLS005",
+    "name": "Class 7",
+    "grade": 7,
+    "teacher_id": "EMP002",
     "student_ids": []
   }
 ]

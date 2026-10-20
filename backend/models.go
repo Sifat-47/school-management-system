@@ -6,6 +6,7 @@ type Student struct {
 	LastName  string `json:"last_name"`
 	Age       int    `json:"age"`
 	ClassID   string `json:"class_id"`
+	Password  string `json:"password"` // New field
 }
 
 type Employee struct {
@@ -18,6 +19,7 @@ type Employee struct {
 type Class struct {
 	ID         string   `json:"id"`
 	Name       string   `json:"name"`
+	Grade      int      `json:"grade"` // New field: 6 to 12
 	TeacherID  string   `json:"teacher_id"`
 	StudentIDs []string `json:"student_ids"`
 }

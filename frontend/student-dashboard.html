@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #0f2c24;
+      --chalk: #f2c14e;
+      --glass: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --text: #f0f4f2;
+      --muted: rgba(240, 244, 242, 0.75);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: linear-gradient(rgba(15,44,36,0.85), rgba(15,44,36,0.9)),
+                  url('hero-bg.jpg') center/cover no-repeat fixed;
+      padding: 40px 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    h1 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 28px;
+    }
+    .logout {
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      color: var(--muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .logout:hover {
+      border-color: var(--chalk);
+      color: var(--chalk);
+    }
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .card h2 {
+      color: var(--chalk);
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .label { color: var(--muted); }
+    .value { font-weight: 500; }
+    .coming {
+      color: var(--muted);
+      font-style: italic;
+      padding: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Student Dashboard</h1>
+      <button class="logout" onclick="logout()">Logout</button>
+    </header>
+
+    <div class="card">
+      <h2>Personal Details</h2>
+      <div class="info-row">
+        <span class="label">Registration ID</span>
+        <span class="value" id="stuId">—</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Full Name</span>
+        <span class="value" id="stuName">—</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Age</span>
+        <span class="value" id="stuAge">—</span>
+      </div>
+      <div class="info-row">
+        <span class="label">Class</span>
+        <span class="value" id="stuClass">—</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Results</h2>
+      <p class="coming">Results module will be added soon.</p>
+    </div>
+
+    <div class="card">
+      <h2>Yearly Fees</h2>
+      <p class="coming">Fees payment module will be added soon.</p>
+    </div>
+  </div>
+
+  <script>
+    // Check if student is logged in
+    const studentData = localStorage.getItem("student");
+    if (!studentData) {
+      window.location.href = "login.html";
+    }
+
+    const student = JSON.parse(studentData);
+
+    document.getElementById("stuId").textContent = student.id || "—";
+    document.getElementById("stuName").textContent = 
+      `${student.first_name || ""} ${student.last_name || ""}`.trim() || "—";
+    document.getElementById("stuAge").textContent = student.age || "—";
+    document.getElementById("stuClass").textContent = student.class_id || "Not assigned";
+
+    function logout() {
+      localStorage.removeItem("student");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Information</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #0f2c24;
+      --chalk: #f2c14e;
+      --glass: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --text: #f0f4f2;
+      --muted: rgba(240, 244, 242, 0.75);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: linear-gradient(rgba(15,44,36,0.85), rgba(15,44,36,0.9)),
+                  url('hero-bg.jpg') center/cover no-repeat fixed;
+      padding: 40px 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    .back {
+      display: inline-block;
+      color: var(--chalk);
+      text-decoration: none;
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    h1 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 36px;
+      margin-bottom: 8px;
+      color: var(--chalk);
+    }
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 17px;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 28px 0 14px;
+      color: var(--chalk);
+    }
+    p, li { color: var(--muted); line-height: 1.7; }
+    ul { margin-left: 20px; margin-bottom: 10px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    th {
+      color: var(--chalk);
+      font-size: 14px;
+    }
+    td { font-size: 15px; }
+    .empty {
+      color: var(--muted);
+      padding: 20px 0;
+      font-style: italic;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(242, 193, 78, 0.15);
+      color: var(--chalk);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back">← Back to Home</a>
+
+    <div class="card">
+      <h1 id="classTitle">Class</h1>
+      <p class="subtitle" id="classSubtitle">Loading information...</p>
+
+      <h2>Overview</h2>
+      <p id="classOverview"></p>
+
+      <h2>Core Subjects</h2>
+      <ul id="classSubjects"></ul>
+
+      <h2>Focus Areas</h2>
+      <p id="classFocus"></p>
+    </div>
+
+    <!-- Real Classes from Backend -->
+    <div class="card">
+      <h2 style="margin-top:0;">Available Sections</h2>
+      <div id="sectionsList">
+        <p class="empty">Loading classes...</p>
+      </div>
+    </div>
+
+    <!-- Students List -->
+    <div class="card">
+      <h2 style="margin-top:0;">Students in this Grade</h2>
+      <div id="studentsList">
+        <p class="empty">Loading students...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = "http://localhost:8080/api";
+
+    // Static info for each grade
+    const classInfo = {
+      "6": {
+        title: "Class 6",
+        subtitle: "Foundation Level",
+        overview: "Class 6 builds the foundation for secondary education. Students develop core skills in language, mathematics, and science.",
+        subjects: ["Bangla", "English", "Mathematics", "General Science", "Social Science", "Religion", "Physical Education"],
+        focus: "Strong fundamentals, reading & writing skills, and basic scientific thinking."
+      },
+      "7": {
+        title: "Class 7",
+        subtitle: "Developing Fundamentals",
+        overview: "Class 7 strengthens concepts and introduces more advanced topics across major subjects.",
+        subjects: ["Bangla", "English", "Mathematics", "General Science", "Social Science", "Religion", "ICT"],
+        focus: "Conceptual clarity, problem-solving, and introduction to technology."
+      },
+      "8": {
+        title: "Class 8",
+        subtitle: "Intermediate Level",
+        overview: "Class 8 prepares students for secondary education with deeper understanding of core subjects.",
+        subjects: ["Bangla", "English", "Mathematics", "Science", "Bangladesh & Global Studies", "Religion", "ICT"],
+        focus: "Analytical thinking and practical knowledge."
+      },
+      "9": {
+        title: "Class 9",
+        subtitle: "Secondary Foundation",
+        overview: "Class 9 marks the beginning of secondary education and preparation for board exams.",
+        subjects: ["Bangla", "English", "Mathematics", "Physics", "Chemistry", "Biology", "Higher Math / Accounting", "ICT"],
+        focus: "Subject specialization and academic discipline."
+      },
+      "10": {
+        title: "Class 10",
+        subtitle: "SSC Preparation",
+        overview: "Class 10 focuses on Secondary School Certificate (SSC) examination preparation.",
+        subjects: ["Bangla", "English", "Mathematics", "Physics", "Chemistry", "Biology", "Higher Math / Business", "ICT"],
+        focus: "Board exam readiness and strong performance in core subjects."
+      },
+      "11": {
+        title: "Class 11",
+        subtitle: "Higher Secondary - First Year",
+        overview: "Class 11 is the first year of higher secondary where students choose specialized streams.",
+        subjects: ["Subjects according to group (Science / Commerce / Arts)"],
+        focus: "Stream specialization and university preparation."
+      },
+      "12": {
+        title: "Class 12",
+        subtitle: "Higher Secondary - Final Year",
+        overview: "Class 12 is the final year focused on HSC examination and higher studies preparation.",
+        subjects: ["Advanced subjects according to chosen group"],
+        focus: "HSC excellence and career guidance."
+      }
+    };
+
+    // Get grade from URL
+    const params = new URLSearchParams(window.location.search);
+    const grade = params.get("class") || "6";
+    const info = classInfo[grade] || classInfo["6"];
+
+    // Fill static info
+    document.getElementById("classTitle").textContent = info.title;
+    document.getElementById("classSubtitle").textContent = info.subtitle;
+    document.getElementById("classOverview").textContent = info.overview;
+    document.getElementById("classFocus").textContent = info.focus;
+
+    const subjectsList = document.getElementById("classSubjects");
+    info.subjects.forEach(sub => {
+      const li = document.createElement("li");
+      li.textContent = sub;
+      subjectsList.appendChild(li);
+    });
+
+    // Load real data from backend
+    async function loadRealData() {
+      try {
+        // 1. Get classes of this grade
+        const classRes = await fetch(`${API}/classes/grade/${grade}`);
+        const gradeClasses = await classRes.json() || [];
+
+        // 2. Get all students and employees
+        const [stuRes, empRes] = await Promise.all([
+          fetch(`${API}/students`),
+          fetch(`${API}/employees`)
+        ]);
+        const allStudents = await stuRes.json() || [];
+        const allEmployees = await empRes.json() || [];
+
+        // Show sections
+        const sectionsDiv = document.getElementById("sectionsList");
+        if (gradeClasses.length === 0) {
+          sectionsDiv.innerHTML = `<p class="empty">No sections created yet for Class ${grade}. Please add from Admin Panel.</p>`;
+        } else {
+          let html = `<table>
+            <thead>
+              <tr>
+                <th>Section Name</th>
+                <th>Teacher</th>
+                <th>Total Students</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+          gradeClasses.forEach(cl => {
+            const teacher = allEmployees.find(e => e.id === cl.teacher_id);
+            const teacherName = teacher ? teacher.name : "Not assigned";
+            html += `
+              <tr>
+                <td>${cl.name}</td>
+                <td>${teacherName}</td>
+                <td>${(cl.student_ids || []).length}</td>
+              </tr>`;
+          });
+
+          html += `</tbody></table>`;
+          sectionsDiv.innerHTML = html;
+        }
+
+        // Show students of this grade
+        const studentIds = new Set();
+        gradeClasses.forEach(cl => {
+          (cl.student_ids || []).forEach(id => studentIds.add(id));
+        });
+
+        const gradeStudents = allStudents.filter(s => studentIds.has(s.id));
+
+        const studentsDiv = document.getElementById("studentsList");
+        if (gradeStudents.length === 0) {
+          studentsDiv.innerHTML = `<p class="empty">No students assigned to Class ${grade} yet.</p>`;
+        } else {
+          let html = `<table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+          gradeStudents.forEach(s => {
+            html += `
+              <tr>
+                <td>${s.id}</td>
+                <td>${s.first_name} ${s.last_name}</td>
+                <td>${s.age}</td>
+              </tr>`;
+          });
+
+          html += `</tbody></table>`;
+          studentsDiv.innerHTML = html;
+        }
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById("sectionsList").innerHTML = 
+          `<p class="empty">Could not load data. Make sure the backend is running.</p>`;
+        document.getElementById("studentsList").innerHTML = 
+          `<p class="empty">Could not load students.</p>`;
+      }
+    }
+
+    loadRealData();
+  </script>
+</body>
+</html>

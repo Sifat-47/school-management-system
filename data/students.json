@@ -4,13 +4,31 @@
     "first_name": "Sifat",
     "last_name": "Hossen",
     "age": 22,
-    "class_id": ""
+    "class_id": "",
+    "password": ""
   },
   {
     "id": "STU002",
     "first_name": "Shahriar",
     "last_name": "Reyad",
     "age": 23,
-    "class_id": ""
+    "class_id": "",
+    "password": ""
+  },
+  {
+    "id": "STU003",
+    "first_name": "Antick",
+    "last_name": "Islam",
+    "age": 23,
+    "class_id": "",
+    "password": "1234"
+  },
+  {
+    "id": "STU004",
+    "first_name": "shishir",
+    "last_name": "Akter",
+    "age": 23,
+    "class_id": "CLS004",
+    "password": "1234"
   }
 ]

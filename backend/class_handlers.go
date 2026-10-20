@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -64,4 +65,20 @@ func deleteClass(c *gin.Context) {
 		}
 	}
 	c.JSON(http.StatusNotFound, gin.H{"error": "Class not found"})
+}
+
+// GET /api/classes/grade/:grade → Get classes by grade (6-12)
+func getClassesByGrade(c *gin.Context) {
+	gradeStr := c.Param("grade")
+	var grade int
+	fmt.Sscanf(gradeStr, "%d", &grade)
+
+	var result []Class
+	for _, cl := range classes {
+		if cl.Grade == grade {
+			result = append(result, cl)
+		}
+	}
+
+	c.JSON(http.StatusOK, result)
 }

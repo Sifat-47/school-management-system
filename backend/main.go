@@ -36,6 +36,9 @@ func main() {
 	r.PUT("/api/students/:id", updateStudent)
 	r.DELETE("/api/students/:id", deleteStudent)
 
+	// Student Login
+	r.POST("/api/student/login", studentLogin)
+
 	// ========== EMPLOYEE ROUTES ==========
 	r.GET("/api/employees", getEmployees)
 	r.GET("/api/employees/:id", getEmployee)
@@ -46,6 +49,7 @@ func main() {
 	// ========== CLASS ROUTES ==========
 	r.GET("/api/classes", getClasses)
 	r.GET("/api/classes/:id", getClass)
+	r.GET("/api/classes/grade/:grade", getClassesByGrade) // ← new line
 	r.POST("/api/classes", createClass)
 	r.PUT("/api/classes/:id", updateClass)
 	r.DELETE("/api/classes/:id", deleteClass)
