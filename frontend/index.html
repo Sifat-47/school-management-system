@@ -8,32 +8,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pine: #14342b;
-      --pine2: #1f4a3d;
+      --pine: #0f2c24;
+      --pine2: #1a3f34;
       --chalk: #f2c14e;
-      --paper: #f5f6f2;
-      --ink: #1c2321;
-      --muted: #66716d;
-      --line: #e2e5df;
+      --glass: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --text: #f0f4f2;
+      --muted: rgba(240, 244, 242, 0.75);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
       font-family: Inter, system-ui, sans-serif;
-      background: var(--paper);
-      color: var(--ink);
+      color: var(--text);
       line-height: 1.6;
+      background: 
+        linear-gradient(rgba(15, 44, 36, 0.82), rgba(15, 44, 36, 0.88)),
+        url('hero-bg.jpg') center/cover no-repeat fixed;
+      min-height: 100vh;
     }
 
-    /* Header */
+    /* ========== HEADER (Glassy) ========== */
     header {
-      background: rgba(20, 52, 43, 0.95);
-      color: #e8efeb;
+      background: rgba(15, 44, 36, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
       padding: 14px 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(8px);
     }
     .header-inner {
       max-width: 1200px;
@@ -54,91 +59,86 @@
       text-decoration: none;
     }
     .logo img {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       object-fit: contain;
-      border-radius: 8px;
-      background: white;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.9);
       padding: 4px;
     }
     nav a {
-      color: #e8efeb;
+      color: var(--muted);
       text-decoration: none;
-      margin-left: 28px;
+      margin-left: 22px;
       font-size: 15px;
       font-weight: 500;
+      transition: 0.2s;
     }
     nav a:hover { color: var(--chalk); }
 
-    /* Hero with background image */
+    /* ========== HERO ========== */
     .hero {
-      position: relative;
-      color: white;
-      padding: 120px 24px;
+      padding: 110px 24px 90px;
       text-align: center;
-      background: 
-        linear-gradient(rgba(20, 52, 43, 0.75), rgba(20, 52, 43, 0.85)),
-        url('hero-bg.png') center/cover no-repeat;
-      min-height: 480px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
     .hero h1 {
       font-family: "Bricolage Grotesque", sans-serif;
-      font-size: clamp(32px, 5vw, 54px);
+      font-size: clamp(34px, 5vw, 56px);
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 18px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
     .hero p {
       font-size: 18px;
-      opacity: 0.95;
+      color: var(--muted);
       max-width: 620px;
       margin: 0 auto 36px;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.3);
     }
     .btn {
       display: inline-block;
       background: var(--chalk);
       color: var(--pine);
       padding: 15px 36px;
-      border-radius: 8px;
+      border-radius: 10px;
       text-decoration: none;
       font-weight: 600;
       font-size: 16px;
-      transition: 0.2s;
+      transition: 0.25s;
+      box-shadow: 0 8px 25px rgba(242, 193, 78, 0.25);
     }
     .btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 12px 30px rgba(242, 193, 78, 0.35);
+    }
+
+    /* ========== GLASS CARDS ========== */
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     }
 
     /* Stats */
     .stats {
       max-width: 1100px;
-      margin: -50px auto 0;
-      padding: 0 24px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
-      position: relative;
-      z-index: 10;
     }
     .stat-card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 12px;
       padding: 28px 24px;
       text-align: center;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
     }
     .stat-card h3 {
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 700;
-      color: var(--pine);
+      color: var(--chalk);
       margin-bottom: 6px;
     }
     .stat-card p {
@@ -150,54 +150,88 @@
     section {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 80px 24px;
+      padding: 70px 24px;
     }
     .section-title {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: 32px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .section-sub {
       color: var(--muted);
-      margin-bottom: 40px;
+      margin-bottom: 36px;
       font-size: 17px;
     }
+
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 22px;
     }
     .card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 12px;
       padding: 28px;
-      transition: 0.2s;
+      transition: 0.25s;
     }
     .card:hover {
-      border-color: var(--pine);
-      box-shadow: 0 8px 24px rgba(20,52,43,0.08);
+      transform: translateY(-4px);
+      border-color: rgba(242, 193, 78, 0.35);
     }
     .card h3 {
-      font-size: 20px;
+      font-size: 19px;
       margin-bottom: 10px;
-      color: var(--pine);
+      color: var(--chalk);
     }
     .card p {
       color: var(--muted);
       font-size: 15px;
     }
 
-    .notices {
-      background: #eef2ef;
+    /* About */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+      align-items: start;
     }
+    .about-text p {
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    /* Admission & Contact */
+    .info-box {
+      padding: 32px;
+    }
+    .info-box ul {
+      margin: 18px 0 18px 20px;
+      color: var(--muted);
+    }
+    .info-box li { margin-bottom: 8px; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .contact-card {
+      padding: 28px;
+      text-align: center;
+    }
+    .contact-card h3 {
+      color: var(--chalk);
+      margin-bottom: 12px;
+    }
+
+    /* Notices */
     .notice-item {
-      background: white;
+      background: rgba(255,255,255,0.08);
       border-left: 4px solid var(--chalk);
       padding: 18px 22px;
       margin-bottom: 14px;
-      border-radius: 0 8px 8px 0;
+      border-radius: 0 12px 12px 0;
+      backdrop-filter: blur(8px);
     }
     .notice-item h4 { margin-bottom: 4px; }
     .notice-item span {
@@ -205,21 +239,26 @@
       color: var(--muted);
     }
 
+    /* Footer */
     footer {
-      background: var(--pine);
-      color: #c5d0cb;
+      background: rgba(10, 28, 22, 0.7);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--glass-border);
+      color: var(--muted);
       padding: 50px 24px 30px;
       text-align: center;
+      margin-top: 40px;
     }
     footer .logo {
       justify-content: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     footer p { font-size: 14px; }
 
-    @media (max-width: 700px) {
-      nav a { margin-left: 14px; font-size: 14px; }
-      .hero { padding: 80px 20px; min-height: 420px; }
+    @media (max-width: 800px) {
+      .about-content { grid-template-columns: 1fr; }
+      nav a { margin-left: 12px; font-size: 13px; }
+      .hero { padding: 80px 20px 60px; }
     }
   </style>
 </head>
@@ -229,20 +268,21 @@
   <header>
     <div class="header-inner">
       <a href="#" class="logo">
-        <!-- Change logo.png to your actual logo file name -->
         <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
         School Manager
       </a>
       <nav>
+        <a href="#about">About</a>
         <a href="#academics">Academics</a>
+        <a href="#admission">Admission</a>
         <a href="#notices">Notices</a>
-        <a href="#campus">Campus</a>
+        <a href="#contact">Contact</a>
         <a href="admin.html">Admin Panel</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero with Background Image -->
+  <!-- Hero -->
   <section class="hero">
     <h1>School Management System</h1>
     <p>A modern platform for managing students, teachers, classes and academic activities — inspired by leading universities.</p>
@@ -251,50 +291,102 @@
 
   <!-- Stats -->
   <div class="stats" id="stats">
-    <div class="stat-card">
+    <div class="stat-card glass">
       <h3 id="stat-students">—</h3>
       <p>Students</p>
     </div>
-    <div class="stat-card">
+    <div class="stat-card glass">
       <h3 id="stat-teachers">—</h3>
       <p>Teachers</p>
     </div>
-    <div class="stat-card">
+    <div class="stat-card glass">
       <h3 id="stat-classes">—</h3>
       <p>Classes</p>
     </div>
-    <div class="stat-card">
+    <div class="stat-card glass">
       <h3 id="stat-courses">—</h3>
       <p>Courses</p>
     </div>
   </div>
+
+  <!-- About -->
+  <section id="about">
+    <h2 class="section-title">About the School</h2>
+    <p class="section-sub">Building future leaders through quality education</p>
+    
+    <div class="about-content">
+      <div class="about-text glass" style="padding: 32px;">
+        <p>
+          Our School Management System is designed to streamline academic and administrative operations. 
+          It provides a centralized platform for managing students, teachers, classes, and courses efficiently.
+        </p>
+        <p>
+          Inspired by the structure of leading academic institutions, the system focuses on simplicity, 
+          transparency, and effective academic management for both administrators and educators.
+        </p>
+        <p>
+          We aim to create a digital environment that supports better decision-making, organized records, 
+          and improved communication across the institution.
+        </p>
+      </div>
+      <div class="card glass">
+        <h3>Our Mission</h3>
+        <p>To provide a reliable and modern digital platform that helps educational institutions manage their academic activities with accuracy and ease.</p>
+        <br>
+        <h3>Our Vision</h3>
+        <p>To become a trusted academic management solution that empowers schools with smart and organized digital tools.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Academics -->
   <section id="academics">
     <h2 class="section-title">Academics</h2>
     <p class="section-sub">Core modules of the school management system</p>
     <div class="cards">
-      <div class="card">
+      <div class="card glass">
         <h3>Student Management</h3>
         <p>Add, update and manage student records with class assignments and profiles.</p>
       </div>
-      <div class="card">
+      <div class="card glass">
         <h3>Employee & Teachers</h3>
         <p>Maintain teacher and staff information along with subject specialization.</p>
       </div>
-      <div class="card">
+      <div class="card glass">
         <h3>Class Management</h3>
         <p>Create classes, assign teachers and organize students efficiently.</p>
       </div>
-      <div class="card">
+      <div class="card glass">
         <h3>Course Management</h3>
         <p>Define courses and assign responsible teachers for each subject.</p>
       </div>
     </div>
   </section>
 
+  <!-- Admission -->
+  <section id="admission">
+    <h2 class="section-title">Admission</h2>
+    <p class="section-sub">Information about joining the institution</p>
+    <div class="info-box glass">
+      <h3 style="color:var(--chalk); margin-bottom:12px;">Admission Process</h3>
+      <p style="color:var(--muted); margin-bottom:16px;">
+        Students can be added to the system by the administration through the management panel. 
+        The system supports structured academic enrollment and class assignment.
+      </p>
+      <ul>
+        <li>Submit required student information</li>
+        <li>Administrative verification and approval</li>
+        <li>Class assignment by the academic office</li>
+        <li>Access to academic records through the system</li>
+      </ul>
+      <p style="color:var(--muted);">
+        For detailed admission procedures, please contact the administration office.
+      </p>
+    </div>
+  </section>
+
   <!-- Notices -->
-  <section class="notices" id="notices">
+  <section id="notices">
     <h2 class="section-title">Notices</h2>
     <p class="section-sub">Latest announcements and updates</p>
     <div class="notice-item">
@@ -311,26 +403,27 @@
     </div>
   </section>
 
-  <!-- Campus -->
-  <section id="campus">
-    <h2 class="section-title">Campus Life</h2>
-    <p class="section-sub">A place for learning, growth and collaboration</p>
-    <div class="cards">
-      <div class="card">
-        <h3>Academic Excellence</h3>
-        <p>Structured academic management for better learning outcomes.</p>
+  <!-- Contact -->
+  <section id="contact">
+    <h2 class="section-title">Contact</h2>
+    <p class="section-sub">Get in touch with the administration</p>
+    <div class="contact-grid">
+      <div class="contact-card glass">
+        <h3>Address</h3>
+        <p>School Management System<br>Academic Building<br>Your City, Bangladesh</p>
       </div>
-      <div class="card">
-        <h3>Teacher Support</h3>
-        <p>Tools to help teachers manage classes and courses effectively.</p>
+      <div class="contact-card glass">
+        <h3>Email</h3>
+        <p>admin@schoolmanager.edu<br>info@schoolmanager.edu</p>
       </div>
-      <div class="card">
-        <h3>Student Success</h3>
-        <p>Organized records and clear academic structure for every student.</p>
+      <div class="contact-card glass">
+        <h3>Phone</h3>
+        <p>+880 1XXX-XXXXXX<br>+880 2XXX-XXXXXX</p>
       </div>
     </div>
   </section>
 
+  <!-- Footer -->
   <footer>
     <div class="logo">
       <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
